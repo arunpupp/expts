@@ -16,6 +16,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     chef.cookbooks_path = "./cookbooks"
     chef.add_recipe "apache2"
     chef.json = {:apache => {:default_site_enabled => true}}
+    chef.add_recipe "git"
+    chef.add_recipe "mysql"
   end
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.

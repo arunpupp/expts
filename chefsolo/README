@@ -1,0 +1,19 @@
+vagrant init precise64
+knife cookbook site download apache2
+mkdir cookbooks
+tar xvzf apache2.tar.gz -C cookbooks
+vim Vagrantfile
+
+Vagrant.configure("2")do|config|
+  config.vm.box = "precise64"
+  config.vm.network :forwarded_port, guest: 80, host: 8001
+  config.vm.provision :chef_solo do |chef|
+    chef.cookbooks_path = "./cookbooks"
+    chef.add_recipe "apache2"
+    chef.json = {:apache => {:default_site_enabled => true}}
+  end
+
+vagrant reload --provision
+Test if apache is installed
+  - vagrant ssh
+  - wget -qO- 127.0.0.1
